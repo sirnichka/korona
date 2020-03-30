@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Количество заражённых COVID-19 в мире</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <link href="fonts/futura/stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <style>
+
+        body {
+            font-family: 'Futura New';
+            margin: 0;
+            padding: 0;
+            background-color: #181824;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main_head {
+            font: 20px 'Futura New', Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            width: 100%;
+            height: 20%;
+            position: fixed;
+            text-align: center;
+            top: 0px;
+            background-color: rgba(1,1,1,0.5);
+            overflow: auto
+        }
+
+        .source {
+            font: 18px 'Futura New', Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            position: fixed;
+            width: 100%;
+            text-align: left;
+            bottom: 30px;
+            left: 10px;
+            overflow: auto
+        }
+           A {
+            color: #ffffff; /* Цвет ссылок */
+           }
+           A:visited {
+            color: #ffffff; /* Цвет посещенных ссылок */
+           }
+            A:active {
+                color: #fdfc4c; /* Цвет активных ссылок */
+            }
+
+        .source_emg {
+            font: 18px 'Futura New', Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            position: fixed;
+            width: 100%;
+            text-align: left;
+            bottom: 55px;
+            left: 10px;
+            overflow: auto
+        }
+
+        .table_full {
+            top: 50px;
+            height: 20%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .table_red {
+            text-align: left;
+            font: 50px 'Futura New', Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #fdfc4c;
+            position: relative;
+            text-align: left;
+            padding: 0px 30px;
+        }
+
+
+        .table_pink {
+            text-align: left;
+            font-weight: bold;
+            font: 30px 'Futura New', Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #ffffff;
+            position: relative;
+            text-align: left;
+        }
+
+
+        .table_date1 {
+            margin: 0px 0px 0px;
+            text-align: left;
+            font: 20px 'Futura New', Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            position: relative;
+            text-align: left;
+        }
+
+        .table_date2 {
+            margin: 0px 0px 0px;
+            text-align: left;
+            font: 20px 'Futura New', Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            position: relative;
+            text-align: left;
+            padding: 0px 30px;
+        }
+
+        .popup_back {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            font: 20px 'Futura New', Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #fdfc4c;
+            text-align: left;
+        }
+
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 20px 'Futura New', Arial, Helvetica, sans-serif;
+            text-align: left;
+            color: #E0FFFF;
+        }
+
+        .mapboxgl-popup-content {
+            background-color: rgba(1,1,1,0.8);
+        }
+
+
+        #map {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+
+
+    <div id="map"></div>
+
+
+    <div class="main_head">
+        <h5>КОЛИЧЕСТВО ЗАРАЖЁННЫХ COVID-19 В МИРЕ</h5>
+    </div>
+
+    <table class="table_full">
+        <tr>
+            <th class="table_pink">701 377</th>
+            <th class="table_red">711 015</th>
+        </tr>
+        <tr>
+            <td class="table_date1">29.03.2020</td>
+            <td class="table_date2">30.03.2020</td>
+        </tr>
+
+    </table>
+
+
+
+    <div class="source">
+        Источник данных: bnonews.com
+    </div>
+    <div class="source_emg">
+        <a href="http://emg.tv/maps.html">Отдел телекартографии ООО «ЕМГ»</a>
+    </div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaXJhZCIsImEiOiJjanVjdTE0YzgwaXhtNDNwZG9sNWt5eGl3In0.51FlFPCOJBznfpPRscP05A';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/irad/ck87k1rwe0xpk1inmngyd5vow',
+            center: [0, 23],
+            minZoom: 1,
+            maxZoom: 4,
+            zoom: 2.3
+        });
+
+        map.on('load', function () {
+
+            map.addSource('blockooo', {
+                type: 'vector',
+                url: 'mapbox://irad.22yeq6rk'
+            });
+
+            map.addLayer({
+                'id': 'blocks',
+                'type': 'fill',
+                'source': 'blockooo',
+                'source-layer': 'korona_blocks_3003-bk8zy3',
+                'paint': {
+                    'fill-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'korona_cas'],
+                        0,
+                        '#4d4d5c',
+                        1,
+                        '#78773f',
+                        300,
+                        '#a7a613',
+                        4500,
+                        '#d5d200',
+                        100000,
+                        '#fffd4e',
+                        500000,
+                        '#ffffff'
+                    ],
+
+
+                }
+            });
+
+            map.addLayer({
+                'id': 'blocksx',
+                'type': 'symbol',
+                'source': 'blockooo',
+                'source-layer': 'korona_blocks_3003-bk8zy3',
+                paint: {
+                    "text-color": "#111111"
+
+                }
+            });
+
+            map.setLayoutProperty('blocksx', 'text-field', [
+                'format',
+                ['get', 'alpha_3'],
+                {
+                    'font-scale': 0.9,
+
+                },
+
+            ]);
+
+            map.setPaintProperty('blocksx', 'text-opacity', .9);
+
+            var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+
+            });
+
+            map.on('mousemove', 'blocks', function (e) {
+
+                map.getCanvas().style.cursor = 'pointer';
+
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties["name"] + "&nbsp"
+                var description2 = e.features[0].properties["korona_cas"]
+                popup.setLngLat(e.lngLat).setHTML(description + "<div class=\"popup_back\">" + description2 + "</div>").addTo(map);
+
+            });
+
+            map.on('mouseleave', 'blocks', function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            });
+
+
+        });
+
+
+    </script>
+
+</body>
+</html>
