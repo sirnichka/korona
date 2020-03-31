@@ -43,12 +43,15 @@
             left: 10px;
             overflow: auto
         }
-           A {
+
+        A {
             color: #ffffff; /* Цвет ссылок */
-           }
-           A:visited {
-            color: #ffffff; /* Цвет посещенных ссылок */
-           }
+        }
+
+            A:visited {
+                color: #ffffff; /* Цвет посещенных ссылок */
+            }
+
             A:active {
                 color: #fdfc4c; /* Цвет активных ссылок */
             }
@@ -151,12 +154,12 @@
 
     <table class="table_full">
         <tr>
-            <th class="table_pink">701 377</th>
-            <th class="table_red">711 015</th>
+            <th class="table_pink">711 015</th>
+            <th class="table_red">782 376</th>
         </tr>
         <tr>
-            <td class="table_date1">29.03.2020</td>
-            <td class="table_date2">30.03.2020</td>
+            <td class="table_date1">30.03.2020</td>
+            <td class="table_date2">31.03.2020</td>
         </tr>
 
     </table>
@@ -197,7 +200,7 @@
                     'fill-color': [
                         'interpolate',
                         ['linear'],
-                        ['get', '3003'],
+                        ['get', 'korona_cas'],
                         0,
                         '#4d4d5c',
                         1,
@@ -251,7 +254,7 @@
 
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var description = e.features[0].properties["name"] + "&nbsp"
-                var description2 = e.features[0].properties["3003"]
+                var description2 = e.features[0].properties["korona_cas"]
                 popup.setLngLat(e.lngLat).setHTML(description + "<div class=\"popup_back\">" + description2 + "</div>").addTo(map);
 
             });
