@@ -13,34 +13,24 @@
     <style>
 
         body {
-            overflow: hidden;
-            top: 0;
+            font-family: 'Futura New';
             margin: 0;
+            padding: 0;
             background-color: #181824;
-        }
-
-        .background_line {
-            width: 100%;
-            height: 15%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(1,1,1,0.5);
+            margin: 0;
+            padding: 0;
         }
 
         .main_head {
             font: 20px 'Futura New', Arial, Helvetica, sans-serif;
             color: #ffffff;
-            margin-left: 44%;
-            top: -25px;
-            position: center;
-        }
-
-        .table_full {
-            position: absolute;
-            margin-top: -35px;
+            width: 100%;
+            height: 23%;
+            position: fixed;
             text-align: center;
+            top: 0px;
+            background-color: rgba(1,1,1,0.5);
+            overflow: auto
         }
 
         .source {
@@ -77,7 +67,15 @@
             overflow: auto
         }
 
-        .todayCount {
+        .table_full {
+            top: 50px;
+            height: 20%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .table_red {
             text-align: left;
             font: 45px 'Futura New', Arial, Helvetica, sans-serif;
             font-weight: bold;
@@ -88,7 +86,7 @@
         }
 
 
-        .yesterdayCount {
+        .table_pink {
             text-align: left;
             font-weight: bold;
             font: 27px 'Futura New', Arial, Helvetica, sans-serif;
@@ -96,14 +94,6 @@
             color: #ffffff;
             position: relative;
             text-align: left;
-        }
-
-        .casesTodayIncrement {
-            font: 20px 'Futura New', Arial, Helvetica, sans-serif;
-            color: #ffffff;
-            position: absolute;
-            text-align: center;
-            top: 0px;
         }
 
 
@@ -135,7 +125,7 @@
         }
 
         .mapboxgl-popup {
-            max-width: 1200px;
+            max-width: 400px;
             font: 20px 'Futura New', Arial, Helvetica, sans-serif;
             text-align: left;
             color: #E0FFFF;
@@ -143,19 +133,6 @@
 
         .mapboxgl-popup-content {
             background-color: rgba(1,1,1,0.8);
-        }
-
-        .popupSmallText {
-            font: 15px 'Futura New', Arial, Helvetica, sans-serif;
-        }
-
-        .popupSmallTextRecovered {
-            font: 15px 'Futura New', Arial, Helvetica, sans-serif;
-            color: #65c326;
-        }
-
-        .popupLargeTextDeaths {
-            color: #a03f29;
         }
 
 
@@ -166,271 +143,230 @@
         }
     </style>
 
-    <style>
-        
-    </style>
+
 
     <div id="map"></div>
 
-    <div class="background_line">
 
-        <div class="main_head">
-
-            <h5>КОЛИЧЕСТВО ЗАРАЖЁННЫХ COVID-19 В МИРЕ</h5>
-
-            <table class="table_full">
-                <tr>
-                    <th class="yesterdayCount">Загрузка..</th>
-                    <th class="todayCount">Загрузка..</th>
-                </tr>
-                <tr>
-                    <td class="table_date1">Загрузка..</td>
-                    <td class="table_date2">Загрузка..</td>
-                </tr>
-            </table>
-        </div>
-
+    <div class="main_head">
+        <h5>КОЛИЧЕСТВО ЗАРАЖЁННЫХ COVID-19 В МИРЕ</h5>
     </div>
+
+    <table class="table_full">
+        <tr>
+            <th class="table_pink">--/--</th>
+            <th class="table_red">--/--</th>
+        </tr>
+        <tr>
+            <td class="table_date1">--/--</td>
+            <td class="table_date2">--/--</td>
+        </tr>
+
+    </table>
 
     <div class="source">
         Источник данных: worldometers.info
     </div>
     <div class="source_emg">
-        <a href="http://emg.tv/maps.html">Отдел телекартографии ООО «ЕМГ»</a>
+        <a href="http://emg.tv/maps.html" target="_blank">Отдел телекартографии ООО «ЕМГ»</a>
     </div>
 
     <script>
+		
+		var fixName = {
+		
+			'USA':'United States',
+			'UK':'United Kingdom',
+			'S. Korea':'South Korea',
+			'Czechia':'Czech Republic',
+			'UAE':'United Arab Emirates',
+			//{'Hong Kong':''}, //прибавить к china
+			'Bosnia and Herzegovina':'Bosnia',
+			//{'Taiwan':''}, //прибавить к china
+			'DRC':'DR Congo',
+			//{'Macao':''}, //прибавить к china
+			'Congo':'Congo Republic',
+			'Saint Kitts and Nevis':'St. Kitts and Nevis',
+			'Cabo Verde':'Cape Verde',
+			'Gambia':'The Gambia',
+			'CAR':'Central African Republic',
+			'St. Vincent Grenadines':'Saint Vincent and the Grenadines',
+		}
+		
+		var expression = ['match', ['get', 'country']];
+		
+		var totalCasesToday = 0;
+		var casesYesterday = 0
+		var totalCases = 0
+		
+		
+		var dataTotal = []
+		var data = []
 
-        let fixName = {
+		fetch("https://corona.lmao.ninja/all").then(response => response.json()).then(function(answer){
+			dataTotal = answer
+		})
+		
+		fetch("https://corona.lmao.ninja/countries").then(response => response.json()).then(function(answer){
+			data = answer
+		})
+		
+setTimeout(function(){ // Delay
 
-            'USA': 'United States',
-            'UK': 'United Kingdom',
-            'S. Korea': 'South Korea',
-            'Czechia': 'Czech Republic',
-            'UAE': 'United Arab Emirates',
-            'Bosnia and Herzegovina': 'Bosnia',
-            'DRC': 'DR Congo',
-            'Congo': 'Congo Republic',
-            'Saint Kitts and Nevis': 'St. Kitts and Nevis',
-            'Cabo Verde': 'Cape Verde',
-            'Gambia': 'The Gambia',
-            'CAR': 'Central African Republic',
-            'St. Vincent Grenadines': 'Saint Vincent and the Grenadines',
-        }
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaXJhZCIsImEiOiJjanVjdTE0YzgwaXhtNDNwZG9sNWt5eGl3In0.51FlFPCOJBznfpPRscP05A';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/irad/ck87k1rwe0xpk1inmngyd5vow',
+            center: [0, 23],
+            minZoom: 1,
+            maxZoom: 4,
+            zoom: 1.8
 
-        let fixCount = {
+        });
+		
+		var intensy = 0.01
+		var maxval = 180000 * intensy //TODO: сорт массива
+		
+        map.on('load', function () {  // EVENT
 
-            'Hong Kong': 0,
-            'Taiwan': 0,
-            'Macao': 0,
-
-        }
-
-        const _token = 'pk.eyJ1IjoiaXJhZCIsImEiOiJjanVjdTE0YzgwaXhtNDNwZG9sNWt5eGl3In0.51FlFPCOJBznfpPRscP05A';
-        const _sourceLayer = 'korona_blocks_country-743ln7';
-        const _mapSourceUrl = 'mapbox://irad.2f49vb6j'
-
-        let fillColorsExp = ['match', ['get', 'country']];
-        totalCasesToday = 0;
-        casesYesterday = 0
-        totalCases = 0
-        intensy = 0.02
-        fixChina = 0
-        dataTotal = []
-        data = []
-
-        async function main() {
-
-            data = await fetch('https://corona.lmao.ninja/countries').then(response => response.json());
-            dataTotal = await fetch('https://corona.lmao.ninja/all').then(response => response.json());
-
-            mapboxgl.accessToken = _token;
-
-            let map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/irad/ck87k1rwe0xpk1inmngyd5vow',
-                center: [0, 23],
-                minZoom: 1,
-                maxZoom: 4,
-                zoom: 2.2
+            map.addSource('blockooo', {
+                type: 'vector',
+                url: 'mapbox://irad.2f49vb6j'
+            });
+			
+			data.forEach(function(row) {
+			
+				if(row['country']!='World'){
+					totalCasesToday = totalCasesToday + row['todayCases']
+				}
+				
+				if(fixName[row['country']]){
+			
+					row['country']=fixName[row['country']]
+			
+				}
+				
+				if(row['cases']>=1){
+					
+					var red = ((row['cases'] / maxval) * 220) + 120;
+					var green = ((row['cases'] / maxval) * 220) + 119;
+					var blue = (row['cases'] / maxval) + 62;
+					var color = 'rgba(' + red + ', ' + green + ', ' + blue + ', 1)';
+					
+					expression.push(row['country'], color);
+				}
+				else
+				{
+					
+					expression.push(row['country'], 'rgba(1,1,1,1)');
+				}
+			});
+			
+			totalCases = dataTotal['cases']
+			casesYesterday = totalCases - totalCasesToday
+			
+			document.getElementsByClassName('table_pink').item(0).textContent = casesYesterday
+			document.getElementsByClassName('table_red').item(0).textContent = totalCases
+			
+			document.getElementsByClassName('table_date1').item(0).textContent = new Date(Date.now()-86400000).toLocaleString().split(',')[0]
+			document.getElementsByClassName('table_date2').item(0).textContent = new Date(Date.now()).toLocaleString().split(',')[0]
+			
+			expression.push('rgba(0,0,0,0)');
+		
+            map.addLayer({
+                'id': 'blocks_black',
+                'type': 'fill',
+                'source': 'blockooo',
+                'source-layer': 'korona_blocks_country-743ln7',
+                'paint': {
+                    'fill-color': 'rgba(77,77,97,1)',
+                }
             });
 
-            let maxval = data[0].cases * intensy
+            map.addLayer({
+                'id': 'blocks_main',
+                'type': 'fill',
+                'source': 'blockooo',
+                'source-layer': 'korona_blocks_country-743ln7',
+                'paint': {
+                    'fill-color': expression,
+                }
+            });
 
-            map.on('load', function () {  // EVENT
+            map.addLayer({
+                'id': 'blocksx',
+                'type': 'symbol',
+                'source': 'blockooo',
+                'source-layer': 'korona_blocks_country-743ln7',
+                paint: {
+                    "text-color": "#111111"
 
-                map.addSource('mapMain', {
-                    type: 'vector',
-                    url: _mapSourceUrl
-                });
+                }
+            });
 
-                data.forEach(function (elementIndex) {
+            map.setLayoutProperty('blocksx', 'text-field', [
+                'format',
+                ['get', 'alpha_3'],
+                {
+                    'font-scale': map.getZoom()*0.4,
 
-                    totalCasesToday = totalCasesToday + elementIndex['todayCases']
-                    totalCases = totalCases + elementIndex['cases']
+                },
 
-                    if (fixName[elementIndex['country']]) {
+            ]);
+      
+            setInterval(function(){ //UPDATE LAYER
+      
+				map.setLayoutProperty('blocksx', 'text-field', [
+					'format',
+					['get', 'alpha_3'],
+					{
+						'font-scale': map.getZoom()*0.4,
 
-                        elementIndex['country'] = fixName[elementIndex['country']]
-                    }
+					},
 
-                    if (elementIndex['country'] == 'China') {
+				]);
+      
+			}, 50);
+	  
+            map.setPaintProperty('blocksx', 'text-opacity', .9);
 
-                        elementIndex['cases'] = elementIndex['cases'] + fixChina
-                    }
+			// POPUP ->
+            var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
 
+            map.on('mousemove', 'blocks_main', function (e) {
 
-                    let red = ((elementIndex['cases'] / maxval) * 220) + 120;
-                    green = ((elementIndex['cases'] / maxval) * 220) + 119;
-                    blue = (elementIndex['cases'] / maxval) + 62;
-                    color = 'rgba(' + red + ', ' + green + ', ' + blue + ', 1)';
+                map.getCanvas().style.cursor = 'pointer';
 
-                    fillColorsExp.push(elementIndex['country'], color);
-
-                });
-
-                fillColorsExp.push('rgba(0,0,0,0)');
-
-
-                casesYesterday = totalCases - totalCasesToday
-
-                document.getElementsByClassName('table_date1').item(0).textContent = new Date(Date.now() - 86400000).toLocaleString().split(',')[0]
-                document.getElementsByClassName('table_date2').item(0).textContent = new Date(Date.now()).toLocaleString().split(',')[0]
-                document.getElementsByClassName('yesterdayCount').item(0).textContent = casesYesterday
-                document.getElementsByClassName('todayCount').item(0).textContent = totalCases
-
-                map.addLayer({
-                    'id': 'blocks_black',
-                    'type': 'fill',
-                    'source': 'mapMain',
-                    'source-layer': _sourceLayer,
-                    'paint': {
-                        'fill-color': 'rgba(77,77,97,1)',
-                    }
-                });
-
-                map.addLayer({
-                    'id': 'blocks_main',
-                    'type': 'fill',
-                    'source': 'mapMain',
-                    'source-layer': _sourceLayer,
-                    'paint': {
-                        'fill-color': fillColorsExp,
-                    }
-                });
-
-                map.addLayer({
-                    'id': 'blocksx',
-                    'type': 'symbol',
-                    'source': 'mapMain',
-                    'source-layer': _sourceLayer,
-                    paint: {
-                        "text-color": "#111111"
-
-                    }
-                });
-
-                map.setLayoutProperty('blocksx', 'text-field', [
-                    'format',
-                    ['get', 'alpha_3'],
-                    {
-                        'font-scale': map.getZoom() * 0.4,
-
-                    },
-
-                ]);
-
-                setInterval(function () { //UPDATE LAYER
-
-                    map.setLayoutProperty('blocksx', 'text-field', [
-                        'format',
-                        ['get', 'alpha_3'],
-                        {
-                            'font-scale': map.getZoom() * 0.4,
-                        },
-
-                    ]);
-
-                }, 50);
-
-                map.setPaintProperty('blocksx', 'text-opacity', .9);
-
-                // POPUP ->
-                let popup = new mapboxgl.Popup({
-                    closeButton: false,
-                    closeOnClick: false
-                });
-
-                map.on('mousemove', 'blocks_main', function (e) {
-
-                    map.getCanvas().style.cursor = 'pointer';
-
-                    let htmlContainer = '';
-
-                    let todayCases = 'Нет данных';
-                    let totalDeaths = 'Нет данных';
-                    let todayDeaths = 'Нет данных';
-                    let recovered = 'Нет данных';
-                    let critical = 'Нет данных';
-                    let active = 'Нет данных';
-                    let totalCases = 'Нет данных';
-
-                    let countryName = e.features[0].properties["name"] + "&nbsp"
-
-                    let flagurl = '';
-
-
-                    data.forEach(function (row) {
-
-                        if (row['country'] == e.features[0].properties['country']) {
-
-                            todayCases = row['todayCases'];
-                            totalDeaths = row['deaths'];
-                            todayDeaths = row['todayDeaths'];
-                            recovered = row['recovered'];
-                            critical = row['critical'];
-                            totalCases = row['cases']
-                            active = row['active'];
-
-                            flagurl = row['countryInfo']['flag']
-                        }
-
-                    });
-
-                    htmlContainer = `<div class=\"popup_back\">${countryName}</div>
-                                                <table class="pupupTable">
-                                                <tr class="popupLargeText"><th>заражений</th></tr>
-                                                <tr class="popupSmallText"><th>всего: </th><th>${totalCases}</th></tr>
-                                                <tr class="popupSmallText"><th>сегодня: </th><th>${todayCases}</th></tr>
-                                                <tr><th> </th></tr>
-                                                <tr><th> </th></tr>
-                                                <tr class="popupLargeTextDeaths"><th>смертей</th></tr>
-                                                <tr class="popupSmallText"><th>всего: </th><th>${totalDeaths}</th></tr>
-                                                <tr class="popupSmallText"><th>сегодня: </th><th>${todayDeaths}</th></tr>
-                                                <tr><th></th></tr>
-                                                <tr class="popupSmallTextRecovered"><th>Излечились: </th><th>${recovered}</th></tr>
-                                                </table>`
-
-
-
-
-
-                    popup.setLngLat(e.lngLat).setHTML(htmlContainer).addTo(map);
-
-                    //<img src="+flagurl+"> \r
-                });
-
-                map.on('mouseleave', 'blocks_main', function () {
-                    map.getCanvas().style.cursor = '';
-                    popup.remove();
-                });
-
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                    description = e.features[0].properties["name"] + "&nbsp"
+					description2 = '';
+					
+				data.forEach(function(row) {
+					
+					if(row['country']==e.features[0].properties['country']){
+						
+						description2 = row['cases']
+					
+					}
+				
+				});
+					
+                popup.setLngLat(e.lngLat).setHTML(description + "<div class=\"popup_back\">" + description2 + "</div>").addTo(map);
 
             });
-        }
 
-        main();
+            map.on('mouseleave', 'blocks_main', function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            });
 
+
+        });
+
+	}, 200);
     </script>
 
 </body>
