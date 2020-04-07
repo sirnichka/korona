@@ -301,13 +301,8 @@
 
 
     <script>
-
         document.addEventListener('click', function (event) {
-            if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen()
-            } else {
-            element.requestFullscreen()
-            }
+
             // игнорирование событий, которые произошли не на данной кнопке
             if (!event.target.hasAttribute('data-toggle-fullscreen')) return;
 
@@ -324,6 +319,13 @@
             // В противном случае войти в полный экран
             if (document.fullscreenElement) {
                 document.exitFullscreen();
+                           
+            if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen()
+            } else {
+            element.requestFullscreen()
+            }
+                
             } else {
                 document.documentElement.requestFullscreen();
             }
