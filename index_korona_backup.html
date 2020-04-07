@@ -173,16 +173,16 @@
             white-space: nowrap;
             display: inline-block;
             margin: 0px;
-            padding: 8px 8px 8px 8px; /*Ширина*/
+            padding: 13px 11px 11px 8px; /*Ширина*/
             margin-bottom: 0;
-            font-size: 20px;
+            font-size: 25px;
             line-height: 20px;
             color: rgba(255,255,255,0.9);
             text-align: center;
             vertical-align: middle;
             cursor: pointer;
             background-color: rgba(0,0,0,0.6);
-            z-index:999;
+
             border: 1px solid rgba(0,0,0,1);
         }
 
@@ -301,6 +301,7 @@
 
 
     <script>
+
         document.addEventListener('click', function (event) {
 
             // игнорирование событий, которые произошли не на данной кнопке
@@ -319,13 +320,6 @@
             // В противном случае войти в полный экран
             if (document.fullscreenElement) {
                 document.exitFullscreen();
-                           
-            if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen()
-            } else {
-            element.requestFullscreen()
-            }
-                
             } else {
                 document.documentElement.requestFullscreen();
             }
