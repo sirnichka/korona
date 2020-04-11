@@ -23,27 +23,25 @@
         .main_head {
             font: 18px 'Futura New', Arial, Helvetica, sans-serif;
             color: #ffffff;
-            position: fixed;
+            position: absolute;
+            right: 0px;
             overflow: auto;
-            top: 28px;
+            top: 17px;
             font-weight: bold;
-            margin-left: 50%;
-            transform: translate(-50%, -50%);
             white-space: nowrap;
-            background-color: rgba(1,1,1,0.5);
-            height: 25px;
-            padding: 0px 10px;
+            background-color: rgba(1,1,1,0.7);
+
+            padding: 5px 10px 5px 10px;
         }
 
         .table_full {
-            top: 0px;
+            top: 100px;
             right: 50px;
             position: absolute;
             padding: 30px 0px 20px 0px;
         }
 
         .table_today {
-            text-align: left;
             font: 30px 'Futura New', Arial, Helvetica, sans-serif;
             font-weight: bold;
             color: #fdfc4c;
@@ -54,7 +52,6 @@
 
 
         .table_yesterday {
-            text-align: left;
             font-weight: bold;
             font: 20px 'Futura New', Arial, Helvetica, sans-serif;
             font-weight: bold;
@@ -65,7 +62,6 @@
 
 
         .table_date1 {
-            text-align: left;
             font: 14px 'Futura New', Arial, Helvetica, sans-serif;
             color: #ffffff;
             position: relative;
@@ -77,8 +73,32 @@
             font: 14px 'Futura New', Arial, Helvetica, sans-serif;
             color: #ffffff;
             position: relative;
-            text-align: left;
             padding: 0px 0px 0px 50px;
+        }
+        .tablegrad {
+            color: white;
+            top: 80px;
+            position: relative;
+            margin-left: 0%;
+            transform: translate(-50%, -50%,);
+            padding:10px;
+        }
+        .grad {
+              background-image: linear-gradient(90deg, rgba(110,110,100,1), yellow);
+              width: 350px;
+
+            }
+
+        .gradtxtleft {
+              font: 14px 'Futura New', Arial, Helvetica, sans-serif;
+              color: white;
+               padding-right:5px
+            }
+        .gradtxright {
+            font: 14px 'Futura New', Arial, Helvetica, sans-serif;
+            color: white;
+            padding-left: 5px;
+            padding-right:5px
         }
 
         #map {
@@ -183,8 +203,8 @@
 
         .radioButton {
             position: absolute;
-            right: 0px;
-            top: 100px;
+            right: 7px;
+            top: 35px;
             white-space: nowrap;
         }
 
@@ -195,9 +215,9 @@
             input[type=radio] + label {
                 display: inline-block;
                 margin: 0px;
-                padding: 2px 5px; /*Ширина*/
+                padding: 2px 4px; /*Ширина*/
                 margin-bottom: 0;
-                font-size: 13px;
+                font-size: 13.5px;
                 line-height: 20px;
                 color: rgba(255,255,255,0.6);
                 text-align: center;
@@ -206,55 +226,50 @@
                 background-color: rgba(0,0,0,0.8);
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe6e6e6',GradientType=0);
                 filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-                border: 1px solid rgba(0,0,0,1);
+                z-index: 999;
             }
 
         #radio1:checked + label {
             background-image: none;
-            outline: 0.2px;
-            outline-style: solid;
-            outline-color: #fdfc4c;
-            color: #fdfc4c;
+            outline: 0;
+            color: black;
             -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
             -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            background-color: rgba(0,0,0,0.9);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3),0 1px 2px rgba(0,0,0,0.05);
+            background-color: #fdfc4c;
+
         }
 
         #radio2:checked + label {
             background-image: none;
-            outline: 0.2px;
-            outline-style: solid;
-            outline-color: #fdfc4c;
-            color: #fdfc4c;
+            outline: 0;
+            color: black;
             -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
             -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            background-color: rgba(0,0,0,0.9);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3),0 1px 2px rgba(0,0,0,0.05);
+            background-color: #fdfc4c;
+
         }
 
         #radio3:checked + label {
             background-image: none;
-            outline: 0.2px;
-            outline-style: solid;
-            outline-color: #ff756b;
-            color: #ff756b;
+            outline: 0;
+            color: black;
             -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
             -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            background-color: rgba(0,0,0,0.9);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3),0 1px 2px rgba(0,0,0,0.05);
+            background-color: #ff756b;
+
         }
 
         #radio4:checked + label {
             background-image: none;
-            outline: 0.2px;
-            outline-style: solid;
-            outline-color: #6eff64;
-            color: #6eff64;
+            outline: 0;
+            color: black;
             -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
             -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-            background-color: rgba(0,0,0,0.9);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3),0 1px 2px rgba(0,0,0,0.05);
+            background-color: #6eff64;
         }
     </style>
    
@@ -268,12 +283,13 @@
             display: flex; /* используем flex для центрирования содержимого */
             align-items: center; /* центрируем содержимое кнопки */
             position: fixed;
-            top: 45px;
-            right: 10px;
+            top: 50px;
+            right: 309px;
             width: 26px;
             height: 26px;
             cursor: pointer;
             z-index: 1;
+            background-color: rgba(1,1,1,0.7);
         }
             /* добавляем "гамбургер" */
             .menu__btn > span,
@@ -286,10 +302,10 @@
             background-color: #ffffff;
             }
 
-            .menu__btn > span::before {
-                content: '';
-                top: -8px;
-            }
+                .menu__btn > span::before {
+                    content: '';
+                    top: -8px;
+                }
 
             .menu__btn > span::after {
                 content: '';
@@ -303,15 +319,14 @@
             display: block;
             position: fixed;
             visibility: hidden;
-            top: 0;
             margin: 0;
             padding: 0px 0px 0px 0px;
             list-style: none;
             text-align: center;
-            width: 350px;
-            height: 140px;
-            top: 40px;
-            background-color: rgba(1,1,1,0.5);;
+            width: 346px;
+            height: 180px;
+            top: 46px;
+            background-color: rgba(1,1,1,0.7);;
             right: 0px;
         }
 
@@ -341,6 +356,25 @@
             <span></span>
             </label>
             <div class="menu__box">
+                <div class="radioButton">
+                    <input type="radio" id="radio1" name="radios" onclick="main(false,true,this);" value="1" checked>
+                    <label for="radio1">Заражения</label>
+                    <input type="radio" id="radio2" name="radios" onclick="main(false,true,this);" value="2">
+                    <label for="radio2">Заражения на 1 млн</label>
+                    <input type="radio" id="radio3" name="radios" onclick="main(false,true,this);" value="3">
+                    <label for="radio3">Смерти</label>
+                    <input type="radio" id="radio4" name="radios" onclick="main(false,true,this);" value="4">
+                    <label for="radio4">Излечились</label>
+                </div>
+
+                <table class="tablegrad">
+                    <tr>
+                        <th class="gradtxtleft">0</th>
+                        <th class="grad"></th>
+                        <th class="gradtxright">4534545</th>
+                    </tr>
+                </table>
+
                 <table class="table_full">
                     <tr>
                         <th class="table_yesterday">--/--</th>
@@ -353,16 +387,10 @@
 
                 </table>
 
-                <div class="radioButton">
-                    <input type="radio" id="radio1" name="radios" onclick="main(false,true,this);" value="1" checked>
-                    <label for="radio1">Заражения</label>
-                    <input type="radio" id="radio2" name="radios" onclick="main(false,true,this);" value="2">
-                    <label for="radio2">Заражения на 1 млн</label>
-                    <input type="radio" id="radio3" name="radios" onclick="main(false,true,this);" value="3">
-                    <label for="radio3">Смерти</label>
-                    <input type="radio" id="radio4" name="radios" onclick="main(false,true,this);" value="4">
-                    <label for="radio4">Излечились</label>
-                </div>
+
+
+
+
             </div>
             <button class="fullscreen_but" onclick="toggleFull();">[ ]</button>
 
@@ -510,10 +538,10 @@
                             totalCases = totalCases + i['cases']
                             totalCasesToday = totalCasesToday + i['todayCases']
 
-                            cases_fillColorsExp.push(i['country'], 'rgba(' + (((i['cases'] / (data[0]['cases'] * 0.5)) * 10) + 110) + ', ' + (((i['cases'] / (data[0]['cases'] * 0.5)) * 10) + 110) + ', ' + ((i['cases'] / (data[0]['cases'] * 10)) + 100) + ', 1)');
-                            casesPerMill_fillColorsExp.push(i['country'], 'rgba(' + (((i['casesPerOneMillion'] / (casesPerOneMillMax * 0.01)) * 10) + 110) + ', ' + (((i['casesPerOneMillion'] / (casesPerOneMillMax * 0.01)) * 10) + 110) + ', ' + ((i['casesPerOneMillion'] / (casesPerOneMillMax * 0.01)) + 100) + ', 1)');
-                            deaths_fillColorsExp.push(i['country'], 'rgba(' + (((i['deaths'] / (deathsMax * 0.1)) * 255) + 110) + ', ' + (((i['deaths'] / (deathsMax * 0.1)) * 1) + 110) + ', ' + (((i['deaths'] / (deathsMax * 0.1)) * 1) + 100) + ', 1)');
-                            recovered_fillColorsExp.push(i['country'], 'rgba(' + (((i['recovered'] / (recoveredMax * 0.05)) * 1) + 110) + ', ' + (((i['recovered'] / (recoveredMax * 0.05)) * 250) + 110) + ', ' + (((i['recovered'] / (recoveredMax * 0.05)) * 1) + 100) + ', 1)');
+                            cases_fillColorsExp.push(i['country'], 'rgba(' + (((i['cases'] / (data[0]['cases'] * 1)) * 10) + 100) + ', ' + (((i['cases'] / (data[0]['cases'] * 1)) * 10) + 100) + ', '  + 100 + ', 1)');
+                            casesPerMill_fillColorsExp.push(i['country'], 'rgba(' + (((i['casesPerOneMillion'] / (casesPerOneMillMax * 0.01)) * 10) + 100) + ', ' + (((i['casesPerOneMillion'] / (casesPerOneMillMax * 0.01)) * 10) + 100) + ', ' + ((i['casesPerOneMillion'] / (casesPerOneMillMax * 0.01)) + 100) + ', 1)');
+                            deaths_fillColorsExp.push(i['country'], 'rgba(' + (((i['deaths'] / (deathsMax * 0.1)) * 255) + 100) + ', ' + (((i['deaths'] / (deathsMax * 0.1)) * 1) + 100) + ', ' + (((i['deaths'] / (deathsMax * 0.1)) * 1) + 100) + ', 1)');
+                            recovered_fillColorsExp.push(i['country'], 'rgba(' + (((i['recovered'] / (recoveredMax * 0.05)) * 1) + 100) + ', ' + (((i['recovered'] / (recoveredMax * 0.05)) * 250) + 100) + ', ' + (((i['recovered'] / (recoveredMax * 0.05)) * 1) + 100) + ', 1)');
                         });
 
                         cases_fillColorsExp.push('rgba(0,0,0,0)');
